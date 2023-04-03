@@ -8,16 +8,24 @@ import me.dio.academia.digital.repository.AlunoRepository;
 import me.dio.academia.digital.repository.AvaliacaoFisicaRepository;
 import me.dio.academia.digital.service.IAvaliacaoFisicaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
-public class AvaliacaoFisicaControllerImpl implements IAvaliacaoFisicaService {
+@Service
+public class AvaliacaoFisicaServiceImpl implements IAvaliacaoFisicaService {
 
     @Autowired
         private AvaliacaoFisicaRepository AvaliacaoFisicarepository;
 
     @Autowired
     private AlunoRepository alunoRepository;
+
+    @Autowired
+    private AvaliacaoFisicaServiceImpl service;
 
     @Override
     public AvaliacaoFisica create(AvaliacaoFisicaForm form) {
@@ -36,18 +44,25 @@ public class AvaliacaoFisicaControllerImpl implements IAvaliacaoFisicaService {
         return null;
     }
 
-    @Override
+    @GetMapping
     public List<AvaliacaoFisica> getAll() {
-        return null;
+
+        return service.getAll();
     }
 
-    @Override
+    @PostMapping
     public AvaliacaoFisica update(Long id, AvaliacaoFisicaUpdateForm formUpdate) {
-        return null;
+        AvaliacaoFisica avaliacaoFisicaUpdate = new AvaliacaoFisica();
+        avaliacaoFisicaUpdate.setPeso(formUpdate.getPeso());
+        avaliacaoFisicaUpdate.setAltura(formUpdate.getAltura());
+        return avaliacaoFisicaUpdate;
     }
 
-    @Override
+    @DeleteMapping
     public void delete(Long id) {
+        AvaliacaoFisicarepository.deleteById(id);
 
     }
+
+
 }
